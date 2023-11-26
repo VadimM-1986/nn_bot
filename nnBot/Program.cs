@@ -11,13 +11,15 @@ using Microsoft.VisualBasic;
 using System.Threading;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using nnBot.Models;
 
-namespace nn_bot
+namespace nnBot
 {
 
     class Program
     {
-
+        
         // Общее поле для всех методов
         public static string globalVariableResRD = "";
         public static string globalListRD2 = "";
@@ -28,12 +30,16 @@ namespace nn_bot
         // Это объект с настройками работы бота. Здесь мы будем указывать, какие типы Update мы будем получать, Timeout бота и так далее.
         private static ReceiverOptions _receiverOptions;
 
+        // Спрятали токен и ID группы
+        private static AccessPass Pass = new AccessPass();
+        public static string? token = Pass.token;
+        public static string? idgroup = Pass.idgroup;
 
 
         static async Task Main()
         {
-
-            _botClient = new TelegramBotClient("6937295047:AAHUAuBLBbDyvlWXTXsJ0Lwx08evAN57_MA"); // Присваиваем нашей переменной значение, в параметре передаем Token, полученный от BotFather
+            
+            _botClient = new TelegramBotClient($"{token}"); // Присваиваем нашей переменной значение, в параметре передаем Token, полученный от BotFather
             _receiverOptions = new ReceiverOptions // Также присваем значение настройкам бота
             {
                 AllowedUpdates = new[] // Тут указываем типы получаемых Update`ов
@@ -63,7 +69,7 @@ namespace nn_bot
                 DateTime dateMich = new DateTime(1985, 09, 20); // У Мича
                 DateTime dateVadim = new DateTime(1986, 04, 09); // У Вадим
                 DateTime dateKem = new DateTime(1985, 09, 03); // У Кема
-                DateTime datePaha = new DateTime(1987, 09, 26); // У Пахи
+                DateTime datePaha = new DateTime(1987, 08, 26); // У Пахи
 
                 // Создаем словарь
                 Dictionary<DateTime, string> keyValuePairsDR = new Dictionary<DateTime, string>();
@@ -80,7 +86,7 @@ namespace nn_bot
                 // Пишем в группу через бота
                 if (globalVariableResRD != "")
                 {
-                    await _botClient.SendTextMessageAsync(-1001991721431, globalVariableResRD);
+                    await _botClient.SendTextMessageAsync(idgroup, globalVariableResRD);
                 }
                 
                 Thread.Sleep(3600000);
